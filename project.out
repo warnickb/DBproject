@@ -1,0 +1,43 @@
+SQL> /*
+SQL> CIS 353 - Database Design Project
+SQL> <One line per team member name>
+SQL> */
+SQL> < The SQL/DDL code that creates your schema >
+SP2-0734: unknown command beginning "< The SQL/..." - rest of line ignored.
+SQL> In the DDL, every IC must have a unique name; e.g. IC5, IC10, IC15, etc.
+SQL> --
+SQL> SET FEEDBACK OFF
+SQL> < The INSERT statements that populate the tables>
+SP2-0734: unknown command beginning "< The INSE..." - rest of line ignored.
+SQL> Important: Keep the number of rows in each table small enough so that the results of your
+SP2-0734: unknown command beginning "Important:..." - rest of line ignored.
+SQL> queries can be verified by hand. See the Sailors database as an example.
+SP2-0734: unknown command beginning "queries ca..." - rest of line ignored.
+SQL> SET FEEDBACK ON
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> --
+SQL> < One query (per table) of the form: SELECT * FROM table; in order to print out your
+SP2-0734: unknown command beginning "< One quer..." - rest of line ignored.
+SQL> database >
+SP2-0042: unknown command "database >" - rest of line ignored.
+SQL> --
+SQL> < The SQL queries>. Include the following for each query:
+SP2-0734: unknown command beginning "< The SQL ..." - rest of line ignored.
+SQL> 1. A comment line stating the query number and the feature(s) it demonstrates
+SP2-0734: unknown command beginning "1. A comme..." - rest of line ignored.
+SQL> (e.g. – Q25 – correlated subquery).
+  2  2. A comment line stating the query in English.
+  3  3. The SQL code for the query.
+  4  --
+  5  < The insert/delete/update statements to test the enforcement of ICs >
+  6  Include the following items for every IC that you test (Important: see the next section titled
+  7  “Submit a final report” regarding which ICs to test).
+  8   A comment line stating: Testing: < IC name>
+  9   A SQL INSERT, DELETE, or UPDATE that will test the IC.
+ 10  COMMIT;
+SP2-0552: Bind variable "TESTING" not declared.
+SQL> --
+SQL> SPOOL OFF
