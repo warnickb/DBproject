@@ -1,18 +1,127 @@
+SQL> SET ECHO ON
 SQL> /*
 SQL> CIS 353 - Database Design Project
 SQL> <One line per team member name>
 SQL> */
+SQL> DROP TABLE Subscription CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE UserProfile CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Episode CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Show CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE WorkHistory CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Cast CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Genre CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Watches CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> 
 SQL> < The SQL/DDL code that creates your schema >
 SP2-0734: unknown command beginning "< The SQL/..." - rest of line ignored.
-SQL> In the DDL, every IC must have a unique name; e.g. IC5, IC10, IC15, etc.
+SQL> CREATE TABLE Subscription(
+  2  	 accountID	 INTEGER,
+  3  	 email		 CHAR(25)    NOT NULL,
+  4  	 nextBillDate	 DATE	     NOT NULL,
+  5  	 lastBillDate	 DATE	     NOT NULL,
+  6  	 paymentMethod	 CHAR(10)    NOT NULL,
+  7  	 managerID	 INTEGER     NOT NULL
+  8  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE UserProfile(
+  2  	 userID 	 INTEGER,
+  3  	 userName	 CHAR(10)   NOT NULL,
+  4  	 accountID	 INTEGER    NOT NULL
+  5  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Episode(
+  2  	 showID 	 INTEGER,
+  3  	 epNum		 INTEGER,
+  4  	 epName 	 CHAR(15)    NOT NULL,
+  5  	 synopsis	 CHAR(150)   NOT NULL,
+  6  	 duration	 TIMESTAMP   NOT NULL,
+  7  	 season 	 INTEGER     NOT NULL,
+  8  	 views		 INTEGER     NOT NULL
+  9  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Show (
+  2  	 showID 	 INTEGER,
+  3  	 showTitle	 CHAR(30)    NOT NULL,
+  4  	 maturity	 CHAR(5)     NOT NULL
+  5  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE WorkHistory (
+  2  	 showID 	 INTEGER,
+  3  	 castID 	 INTEGER,
+  4  	 role		 CHAR(15),
+  5  	 startDate	 DATE	     NOT NULL,
+  6  	 endDate	 DATE	     NOT NULL
+  7  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Cast (
+  2  	 castID 	 INTEGER,
+  3  	 castName	 CHAR(30)    NOT NULL
+  4  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Genre (
+  2  	 showID 	 INTEGER,
+  3  	 genreName	     CHAR(15)
+  4  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Watches (
+  2  	 userID 	 INTEGER,
+  3  	 showID 	 INTEGER,
+  4  	 epNum		 INTEGER,
+  5  	 timestamp	 TIMESTAMP    NOT NULL
+  6  );
+
+Table created.
+
+SQL> 
 SQL> --
 SQL> SET FEEDBACK OFF
 SQL> < The INSERT statements that populate the tables>
 SP2-0734: unknown command beginning "< The INSE..." - rest of line ignored.
-SQL> Important: Keep the number of rows in each table small enough so that the results of your
-SP2-0734: unknown command beginning "Important:..." - rest of line ignored.
-SQL> queries can be verified by hand. See the Sailors database as an example.
-SP2-0734: unknown command beginning "queries ca..." - rest of line ignored.
 SQL> SET FEEDBACK ON
 SQL> COMMIT;
 
@@ -26,18 +135,12 @@ SP2-0042: unknown command "database >" - rest of line ignored.
 SQL> --
 SQL> < The SQL queries>. Include the following for each query:
 SP2-0734: unknown command beginning "< The SQL ..." - rest of line ignored.
-SQL> 1. A comment line stating the query number and the feature(s) it demonstrates
-SP2-0734: unknown command beginning "1. A comme..." - rest of line ignored.
-SQL> (e.g. – Q25 – correlated subquery).
-  2  2. A comment line stating the query in English.
-  3  3. The SQL code for the query.
-  4  --
-  5  < The insert/delete/update statements to test the enforcement of ICs >
-  6  Include the following items for every IC that you test (Important: see the next section titled
-  7  “Submit a final report” regarding which ICs to test).
-  8   A comment line stating: Testing: < IC name>
-  9   A SQL INSERT, DELETE, or UPDATE that will test the IC.
- 10  COMMIT;
-SP2-0552: Bind variable "TESTING" not declared.
+SQL> --
+SQL> < The insert/delete/update statements to test the enforcement of ICs >
+SP2-0734: unknown command beginning "< The inse..." - rest of line ignored.
+SQL> COMMIT;
+
+Commit complete.
+
 SQL> --
 SQL> SPOOL OFF

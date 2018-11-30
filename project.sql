@@ -4,13 +4,75 @@ SET ECHO ON
 CIS 353 - Database Design Project
 <One line per team member name>
 */
+DROP TABLE Subscription CASCADE CONSTRAINTS;
+DROP TABLE UserProfile CASCADE CONSTRAINTS;
+DROP TABLE Episode CASCADE CONSTRAINTS;
+DROP TABLE Show CASCADE CONSTRAINTS;
+DROP TABLE WorkHistory CASCADE CONSTRAINTS;
+DROP TABLE Cast CASCADE CONSTRAINTS;
+DROP TABLE Genre CASCADE CONSTRAINTS;
+DROP TABLE Watches CASCADE CONSTRAINTS;
+
 < The SQL/DDL code that creates your schema >
-In the DDL, every IC must have a unique name; e.g. IC5, IC10, IC15, etc.
+CREATE TABLE Subscription(
+    accountID       INTEGER,
+    email           CHAR(25)    NOT NULL,
+    nextBillDate    DATE        NOT NULL,
+    lastBillDate    DATE        NOT NULL,
+    paymentMethod   CHAR(10)    NOT NULL,
+    managerID       INTEGER     NOT NULL
+);
+
+CREATE TABLE UserProfile(
+    userID          INTEGER,
+    userName        CHAR(10)   NOT NULL,
+    accountID       INTEGER    NOT NULL
+);
+
+CREATE TABLE Episode(
+    showID          INTEGER,
+    epNum           INTEGER,
+    epName          CHAR(15)    NOT NULL,
+    synopsis        CHAR(150)   NOT NULL,
+    duration        TIMESTAMP   NOT NULL,
+    season          INTEGER     NOT NULL,
+    views           INTEGER     NOT NULL
+);
+
+CREATE TABLE Show (
+    showID          INTEGER,
+    showTitle       CHAR(30)    NOT NULL,
+    maturity        CHAR(5)     NOT NULL
+);
+
+CREATE TABLE WorkHistory (
+    showID          INTEGER,
+    castID          INTEGER,
+    role            CHAR(15),
+    startDate       DATE        NOT NULL,
+    endDate         DATE        NOT NULL
+);
+
+CREATE TABLE Cast (
+    castID          INTEGER,
+    castName        CHAR(30)    NOT NULL
+);
+
+CREATE TABLE Genre (
+    showID          INTEGER,
+    genreName           CHAR(15)
+);
+
+CREATE TABLE Watches (
+    userID          INTEGER,
+    showID          INTEGER,
+    epNum           INTEGER,
+    timestamp       TIMESTAMP    NOT NULL
+);
+
 --
 SET FEEDBACK OFF
 < The INSERT statements that populate the tables>
-Important: Keep the number of rows in each table small enough so that the results of your
-queries can be verified by hand. See the Sailors database as an example.
 SET FEEDBACK ON
 COMMIT;
 --
@@ -18,16 +80,8 @@ COMMIT;
 database >
 --
 < The SQL queries>. Include the following for each query:
-1. A comment line stating the query number and the feature(s) it demonstrates
-(e.g. – Q25 – correlated subquery).
-2. A comment line stating the query in English.
-3. The SQL code for the query.
 --
 < The insert/delete/update statements to test the enforcement of ICs >
-Include the following items for every IC that you test (Important: see the next section titled
-“Submit a final report” regarding which ICs to test).
- A comment line stating: Testing: < IC name>
- A SQL INSERT, DELETE, or UPDATE that will test the IC.
 COMMIT;
 --
 SPOOL OFF
