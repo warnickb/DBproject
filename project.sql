@@ -80,27 +80,44 @@ INSERT INTO Show VALUES (123456, 'Fargo', 'TV-14');
 
 
 INSERT INTO Episode VALUES (743756, 101, 'A Study in Pink', 
-                            TO_TIMESTAMP('01:28:18','hh:mi:ss'), 1, 457887,
+                            TO_TIMESTAMP('01:28:18','hh24:mi:ss'), 1, 457887,
                             'A string of apparent suicides has Scotland Yard baffled in London 2010, 
                             and officials turn to their consultant, Sherlock Holmes, for assistance.');
-INSERT INTO Episode VALUES (743756, 102, 'The Blind Banker', TO_TIMESTAMP('01:28:24','hh:mi:ss'), 1, 876568, 
+INSERT INTO Episode VALUES (743756, 102, 'The Blind Banker', TO_TIMESTAMP('01:28:24','hh24:mi:ss'), 1, 876568, 
                             'Holmes plunges into a world of codes and symbols when he investigates 
                             a series of murders linked to a mysterious cipher.');
-INSERT INTO Episode VALUES (743756, 103, 'The Great Game', TO_TIMESTAMP('01:29:14','hh:mi:ss'), 1, 346588, 
+INSERT INTO Episode VALUES (743756, 103, 'The Great Game', TO_TIMESTAMP('01:29:14','hh24:mi:ss'), 1, 346588, 
                             'Sherlock and John plunge into a battle of wits with 
                             a shadowy stranger when faced with a unusual clue in an empty room.');                           
-INSERT INTO Episode VALUES (743756, 201, 'The Scandal in Belgravia', TO_TIMESTAMP('01:29:47','hh:mi:ss'), 2, 435786, 
+INSERT INTO Episode VALUES (743756, 201, 'The Scandal in Belgravia', TO_TIMESTAMP('01:29:47','hh24:mi:ss'), 2, 435786, 
                             'Sherlock and John discover that a case of 
                             blackmail is more than just a threat to topple the monarchy.');                           
-INSERT INTO Episode VALUES (743756, 202, 'The Hounds of Baskerville', TO_TIMESTAMP('01:28:36','hh:mi:ss'), 2, 876807, 
+INSERT INTO Episode VALUES (743756, 202, 'The Hounds of Baskerville', TO_TIMESTAMP('01:28:36','hh24:mi:ss'), 2, 876807, 
                             'Sherlock and John investigate for their client,
                              who saw his father killed by a monstrous creature on Dartmoor 20 years earlier.');    
-INSERT INTO Episode VALUES (743756, 203, 'The Reichenbach Fall', TO_TIMESTAMP('01:28:02','hh:mi:ss'), 2, 2365457, 
+INSERT INTO Episode VALUES (743756, 203, 'The Reichenbach Fall', TO_TIMESTAMP('01:28:02','hh24:mi:ss'), 2, 2365457, 
                             'A whirlwind adventure and the return of 
                             arch-nemesis Moriarty lead John to believe that Sherlock is dead.');    
-
-
-
+INSERT INTO Episode VALUES (481516, 101, 'Pilot(Part 1)', TO_TIMESTAMP('00:48:32','hh24:mi:ss'), 1, 10312543, 
+                            'Forty-eight survivors crash-land onto an unknown 
+                            island 1000 miles off course, struggle to figure out a way to survive.');    
+INSERT INTO Episode VALUES (481516, 102, 'Pilot(Part 2)', TO_TIMESTAMP('00:44:24','hh24:mi:ss'), 1, 10023432, 
+                            'Having retrieved the plane tranceiver, a group of survivors try to transmit 
+                            a signal, only to receive a strange transmission from another inhabitant.');    
+INSERT INTO Episode VALUES (481516, 201, 'Man of Science, Man of Faith', TO_TIMESTAMP('00:47:32','hh24:mi:ss'), 2, 10343264, 
+                            'One of the castaways is chosen to descend into the mysterious hatch, and Shannon stumbles
+                             upon a shockingly familiar face in the jungle.');    
+INSERT INTO Episode VALUES (481516, 202, 'Adrift', TO_TIMESTAMP('00:47:14','hh24:mi:ss'), 2, 9803243, 
+                            'Michael and Sawyer fight for their lives on the high seas and discover 
+                            a new threat. Locke descends into the hatch to find a missing Kate.');                                                            
+INSERT INTO Episode VALUES (123456, 101, 'The Crocodiles Dilemma', TO_TIMESTAMP('01:10:35','hh24:mi:ss'), 1, 15889244, 
+                            'A manipulative man meets a small town insurance salesman and sets him on a path of destruction.');  
+INSERT INTO Episode VALUES (123456, 102, 'The Rooster Prince', TO_TIMESTAMP('00:51:54','hh24:mi:ss'), 1, 15889238, 
+                            'Molly begins to suspect that Lester is involved with the murders.');  
+INSERT INTO Episode VALUES (123456, 201, 'Waiting For Dutch', TO_TIMESTAMP('00:50:51','hh24:mi:ss'), 2, 15888945, 
+                            'In 1979, a turn of events at a diner disrupts the lives of the citizens in a small Minnesota town.');  
+INSERT INTO Episode VALUES (123456, 202, 'Before the Law', TO_TIMESTAMP('00:59:32','hh24:mi:ss'), 2, 14665795, 
+                            'The Gerhardts get a surprising offer, and two murderers do their best to clean up their mess.');  
 
 SET FEEDBACK ON
 COMMIT;
