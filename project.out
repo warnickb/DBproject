@@ -36,8 +36,7 @@ SQL> DROP TABLE Watches CASCADE CONSTRAINTS;
 Table dropped.
 
 SQL> 
-SQL> < The SQL/DDL code that creates your schema >
-SP2-0734: unknown command beginning "< The SQL/..." - rest of line ignored.
+SQL> --< The SQL/DDL code that creates your schema >
 SQL> CREATE TABLE Subscription(
   2  	 accountID	 INTEGER,
   3  	 email		 CHAR(25)    NOT NULL,
@@ -62,11 +61,11 @@ SQL>
 SQL> CREATE TABLE Episode(
   2  	 showID 	 INTEGER,
   3  	 epNum		 INTEGER,
-  4  	 epName 	 CHAR(15)    NOT NULL,
-  5  	 synopsis	 CHAR(150)   NOT NULL,
-  6  	 duration	 TIMESTAMP   NOT NULL,
-  7  	 season 	 INTEGER     NOT NULL,
-  8  	 views		 INTEGER     NOT NULL
+  4  	 epName 	 CHAR(40)    NOT NULL,
+  5  	 duration	 TIMESTAMP   NOT NULL,
+  6  	 season 	 INTEGER     NOT NULL,
+  7  	 views		 INTEGER     NOT NULL,
+  8  	 synopsis	 CHAR(300)
   9  );
 
 Table created.
@@ -118,26 +117,50 @@ SQL> CREATE TABLE Watches (
 Table created.
 
 SQL> 
-SQL> --
+SQL> 
 SQL> SET FEEDBACK OFF
-SQL> < The INSERT statements that populate the tables>
-SP2-0734: unknown command beginning "< The INSE..." - rest of line ignored.
+SQL> --< The INSERT statements that populate the tables>
+SQL> 
+SQL> INSERT INTO Show VALUES (743756, 'Sherlock', 'TV-14');
+SQL> INSERT INTO Show VALUES (481516, 'Lost', 'TV-14');
+SQL> INSERT INTO Show VALUES (123456, 'Fargo', 'TV-14');
+SQL> 
+SQL> 
+SQL> INSERT INTO Episode VALUES (743756, 101, 'A Study in Pink',
+  2  				 TO_TIMESTAMP('01:28:18','hh:mi:ss'), 1, 457887,
+  3  				 'A string of apparent suicides has Scotland Yard baffled in London 2010,
+  4  				 and officials turn to their consultant, Sherlock Holmes, for assistance.');
+SQL> INSERT INTO Episode VALUES (743756, 102, 'The Blind Banker', TO_TIMESTAMP('01:28:24','hh:mi:ss'), 1, 876568,
+  2  				 'Holmes plunges into a world of codes and symbols when he investigates
+  3  				 a series of murders linked to a mysterious cipher.');
+SQL> INSERT INTO Episode VALUES (743756, 103, 'The Great Game', TO_TIMESTAMP('01:29:14','hh:mi:ss'), 1, 346588,
+  2  				 'Sherlock and John plunge into a battle of wits with
+  3  				 a shadowy stranger when faced with a unusual clue in an empty room.');
+SQL> INSERT INTO Episode VALUES (743756, 201, 'The Scandal in Belgravia', TO_TIMESTAMP('01:29:47','hh:mi:ss'), 2, 435786,
+  2  				 'Sherlock and John discover that a case of
+  3  				 blackmail is more than just a threat to topple the monarchy.');
+SQL> INSERT INTO Episode VALUES (743756, 202, 'The Hounds of Baskerville', TO_TIMESTAMP('01:28:36','hh:mi:ss'), 2, 876807,
+  2  				 'Sherlock and John investigate for their client,
+  3  				  who saw his father killed by a monstrous creature on Dartmoor 20 years earlier.');
+SQL> INSERT INTO Episode VALUES (743756, 203, 'The Reichenbach Fall', TO_TIMESTAMP('01:28:02','hh:mi:ss'), 2, 2365457,
+  2  				 'A whirlwind adventure and the return of
+  3  				 arch-nemesis Moriarty lead John to believe that Sherlock is dead.');
+SQL> 
+SQL> 
+SQL> 
+SQL> 
 SQL> SET FEEDBACK ON
 SQL> COMMIT;
 
 Commit complete.
 
 SQL> --
-SQL> < One query (per table) of the form: SELECT * FROM table; in order to print out your
-SP2-0734: unknown command beginning "< One quer..." - rest of line ignored.
-SQL> database >
-SP2-0042: unknown command "database >" - rest of line ignored.
+SQL> --< One query (per table) of the form: SELECT * FROM table; in order to print out your
+SQL> --database >
 SQL> --
-SQL> < The SQL queries>. Include the following for each query:
-SP2-0734: unknown command beginning "< The SQL ..." - rest of line ignored.
+SQL> --< The SQL queries>. Include the following for each query:
 SQL> --
-SQL> < The insert/delete/update statements to test the enforcement of ICs >
-SP2-0734: unknown command beginning "< The inse..." - rest of line ignored.
+SQL> --< The insert/delete/update statements to test the enforcement of ICs >
 SQL> COMMIT;
 
 Commit complete.
