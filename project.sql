@@ -20,22 +20,13 @@ CREATE TABLE Subscription(
     nextBillDate    DATE        NOT NULL,
     lastBillDate    DATE        NOT NULL,
     paymentMethod   CHAR(10)    NOT NULL,
-    managerID       INTEGER     NOT NULL,
-	CONSTRAINT suIC1 PRIMARY KEY(accountID)
+    managerID       INTEGER     NOT NULL
 );
 
 CREATE TABLE UserProfile(
     userID          INTEGER,
     userName        CHAR(10)   NOT NULL,
-    accountID       INTEGER    NOT NULL,
-	CONSTRAINT uIC1 PRIMARY KEY(userID)
-);
-
-CREATE TABLE Show (
-    showID          INTEGER,
-    showTitle       CHAR(30)    NOT NULL,
-    maturity        CHAR(5)     NOT NULL,
-	CONSTRAINT shIC1 PRIMARY KEY(showID)
+    accountID       INTEGER    NOT NULL
 );
 
 CREATE TABLE Episode(
@@ -45,16 +36,18 @@ CREATE TABLE Episode(
     duration        TIMESTAMP   NOT NULL,
     season          INTEGER     NOT NULL,
     views           INTEGER     NOT NULL,
-    synopsis        CHAR(300),  
-	CONSTRAINT eIC1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE,
-	CONSTRAINT eIC2 PRIMARY KEY(epNum),
-	CONSTRAINT eIC3 CHECK(NOT(season = 0))
+    synopsis        CHAR(300)   
+);
+
+CREATE TABLE Show (
+    showID          INTEGER,
+    showTitle       CHAR(30)    NOT NULL,
+    maturity        CHAR(5)     NOT NULL
 );
 
 CREATE TABLE CastMember (
     castID          INTEGER,
-    castName        CHAR(30)    NOT NULL,
-	CONSTRAINT cIC1 PRIMARY KEY(castID) 
+    castName        CHAR(30)    NOT NULL
 );
 
 CREATE TABLE WorkHistory (
@@ -62,25 +55,20 @@ CREATE TABLE WorkHistory (
     castID          INTEGER,
     role            CHAR(15),
     startDate       DATE        NOT NULL,
-    endDate         DATE        NOT NULL,
-	CONSTRAINT woIC1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE,
-	CONSTRAINT woIC2 FOREIGN KEY(castID) REFERENCES CastMember(castID) ON DELETE CASCADE
+    endDate         DATE        NOT NULL
 );
+
 
 CREATE TABLE Genre (
     showID          INTEGER,
-    genreName           CHAR(15),
-	CONSTRAINT gIC1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE
+    genreName           CHAR(15)
 );
 
 CREATE TABLE Watches (
     userID          INTEGER,
     showID          INTEGER,
     epNum           INTEGER,
-    timestamp       TIMESTAMP    NOT NULL,
-	CONSTRAINT wIC1 FOREIGN KEY(userID) REFERENCES UserProfile(userID) ON DELETE CASCADE,
-	CONSTRAINT wIC2 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE,
-	CONSTRAINT wIC3 CHECK(NOT(epNum = 0))
+    timestamp       TIMESTAMP    NOT NULL
 );
 
 
@@ -131,6 +119,25 @@ INSERT INTO Episode VALUES (123456, 201, 'Waiting For Dutch', TO_TIMESTAMP('00:5
                             'In 1979, a turn of events at a diner disrupts the lives of the citizens in a small Minnesota town.');  
 INSERT INTO Episode VALUES (123456, 202, 'Before the Law', TO_TIMESTAMP('00:59:32','hh24:mi:ss'), 2, 14665795, 
                             'The Gerhardts get a surprising offer, and two murderers do their best to clean up their mess.');  
+
+INSERT INTO CastMember VALUES (54, 'Benedict Cumberbatch');
+INSERT INTO CastMember VALUES (32, 'Steven Moffat');
+INSERT INTO CastMember VALUES (934, 'Evangeline Lily');
+INSERT INTO CastMember VALUES (4395, 'Matthew Fox');
+INSERT INTO CastMember VALUES (546, 'J. J. Abrams');
+INSERT INTO CastMember VALUES (1234, 'Billy Bob Thornton');
+INSERT INTO CastMember VALUES (342, 'Martin Freeman');
+
+INSERT INTO WorkHistory VALUES (743756, 54, 'Star', TO_DATE('10/24/2010', 'MM/DD/YYYY'),  TO_DATE('01/15/2017', 'MM/DD/YYYY'));
+INSERT INTO WorkHistory VALUES (743756, 32, 'Showrunner', TO_DATE('10/24/2010', 'MM/DD/YYYY'),  TO_DATE('01/15/2017', 'MM/DD/YYYY'));
+INSERT INTO WorkHistory VALUES (743756, 342, 'Star', TO_DATE('10/24/2010', 'MM/DD/YYYY'),  TO_DATE('01/15/2017', 'MM/DD/YYYY'));
+INSERT INTO WorkHistory VALUES (481516, 934, 'Star', TO_DATE('09/22/2004', 'MM/DD/YYYY'),  TO_DATE('05/23/2010', 'MM/DD/YYYY'));
+INSERT INTO WorkHistory VALUES (481516, 4395, 'Star', TO_DATE('09/22/2004', 'MM/DD/YYYY'),  TO_DATE('05/23/2010', 'MM/DD/YYYY'));
+INSERT INTO WorkHistory VALUES (481516, 546, 'Writer', TO_DATE('09/22/2004', 'MM/DD/YYYY'),  TO_DATE('05/23/2010', 'MM/DD/YYYY'));
+INSERT INTO WorkHistory VALUES (481516, 546, 'Director', TO_DATE('09/22/2004', 'MM/DD/YYYY'),  TO_DATE('05/23/2010', 'MM/DD/YYYY'));
+INSERT INTO WorkHistory VALUES (481516, 546, 'Producer', TO_DATE('09/22/2004', 'MM/DD/YYYY'),  TO_DATE('05/23/2010', 'MM/DD/YYYY'));
+INSERT INTO WorkHistory VALUES (123456, 1234, 'Star', TO_DATE('04/14/2014', 'MM/DD/YYYY'),  TO_DATE('05/10/2017', 'MM/DD/YYYY'));
+INSERT INTO WorkHistory VALUES (123456, 342, 'Star', TO_DATE('04/14/2014', 'MM/DD/YYYY'),  TO_DATE('12/17/2015', 'MM/DD/YYYY'));
 
 SET FEEDBACK ON
 COMMIT;
