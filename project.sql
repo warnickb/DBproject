@@ -25,7 +25,7 @@ CREATE TABLE Subscription(
 
 CREATE TABLE UserProfile(
     userID          INTEGER,
-    userName        CHAR(10)   NOT NULL,
+    userName        CHAR(20)   NOT NULL,
     accountID       INTEGER    NOT NULL
 );
 
@@ -129,6 +129,23 @@ INSERT INTO WorkHistory VALUES (481516, 546, 'Producer', TO_DATE('09/22/2004', '
 INSERT INTO WorkHistory VALUES (123456, 1234, 'Star', TO_DATE('04/14/2014', 'MM/DD/YYYY'),  TO_DATE('05/10/2017', 'MM/DD/YYYY'));
 INSERT INTO WorkHistory VALUES (123456, 342, 'Star', TO_DATE('04/14/2014', 'MM/DD/YYYY'),  TO_DATE('12/17/2015', 'MM/DD/YYYY'));
 
+INSERT INTO Genre VALUES (743756, 'Crime');
+INSERT INTO Genre VALUES (743756, 'Drama');
+INSERT INTO Genre VALUES (743756, 'British TV');
+INSERT INTO Genre VALUES (481516, 'Adventure');
+INSERT INTO Genre VALUES (481516, 'Mystery');
+INSERT INTO Genre VALUES (481516, 'Science Fiction');
+INSERT INTO Genre VALUES (123456, 'Crime');
+INSERT INTO Genre VALUES (123456, 'Drama');
+
+INSERT INTO Subscription VALUES (123456, 'fake@fakemail.com', TO_DATE('11/05/2018', 'MM/DD/YYYY'),  TO_DATE('12/05/2018', 'MM/DD/YYYY'), 'Visa', 1111);
+INSERT INTO Subscription VALUES (64845, 'superfake@fa.ke', TO_DATE('11/25/2018', 'MM/DD/YYYY'),  TO_DATE('12/25/2018', 'MM/DD/YYYY'), 'Mastercard', 1212);
+
+INSERT INTO UserProfile VALUES (1111, 'oneone', 123456);
+INSERT INTO UserProfile VALUES (2222, 'twotwo', 123456);
+INSERT INTO UserProfile VALUES (3333, 'threethree', 123456);
+INSERT INTO UserProfile VALUES (4444, 'fourfour', 123456);
+INSERT INTO UserProfile VALUES (1212, 'onetwo', 64845);
 SET FEEDBACK ON
 COMMIT;
 --
