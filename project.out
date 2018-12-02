@@ -23,7 +23,7 @@ SQL> DROP TABLE WorkHistory CASCADE CONSTRAINTS;
 
 Table dropped.
 
-SQL> DROP TABLE Cast CASCADE CONSTRAINTS;
+SQL> DROP TABLE CastMember CASCADE CONSTRAINTS;
 
 Table dropped.
 
@@ -43,8 +43,9 @@ SQL> CREATE TABLE Subscription(
   4  	 nextBillDate	 DATE	     NOT NULL,
   5  	 lastBillDate	 DATE	     NOT NULL,
   6  	 paymentMethod	 CHAR(10)    NOT NULL,
-  7  	 managerID	 INTEGER     NOT NULL
-  8  );
+  7  	 managerID	 INTEGER     NOT NULL,
+  8  	     CONSTRAINT suIC1 PRIMARY KEY(accountID)
+  9  );
 
 Table created.
 
@@ -52,8 +53,19 @@ SQL>
 SQL> CREATE TABLE UserProfile(
   2  	 userID 	 INTEGER,
   3  	 userName	 CHAR(10)   NOT NULL,
-  4  	 accountID	 INTEGER    NOT NULL
-  5  );
+  4  	 accountID	 INTEGER    NOT NULL,
+  5  	     CONSTRAINT uIC1 PRIMARY KEY(userID)
+  6  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Show (
+  2  	 showID 	 INTEGER,
+  3  	 showTitle	 CHAR(30)    NOT NULL,
+  4  	 maturity	 CHAR(5)     NOT NULL,
+  5  	     CONSTRAINT shID1 PRIMARY KEY(showID)
+  6  );
 
 Table created.
 
@@ -65,16 +77,17 @@ SQL> CREATE TABLE Episode(
   5  	 duration	 TIMESTAMP   NOT NULL,
   6  	 season 	 INTEGER     NOT NULL,
   7  	 views		 INTEGER     NOT NULL,
-  8  	 synopsis	 CHAR(300)
-  9  );
+  8  	 synopsis	 CHAR(300),
+  9  	     CONSTRAINT eID1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE
+ 10  );
 
 Table created.
 
 SQL> 
-SQL> CREATE TABLE Show (
-  2  	 showID 	 INTEGER,
-  3  	 showTitle	 CHAR(30)    NOT NULL,
-  4  	 maturity	 CHAR(5)     NOT NULL
+SQL> CREATE TABLE CastMember (
+  2  	 castID 	 INTEGER,
+  3  	 castName	 CHAR(30)    NOT NULL,
+  4  	     CONSTRAINT cID1 PRIMARY KEY(castID)
   5  );
 
 Table created.
@@ -85,24 +98,19 @@ SQL> CREATE TABLE WorkHistory (
   3  	 castID 	 INTEGER,
   4  	 role		 CHAR(15),
   5  	 startDate	 DATE	     NOT NULL,
-  6  	 endDate	 DATE	     NOT NULL
-  7  );
-
-Table created.
-
-SQL> 
-SQL> CREATE TABLE Cast (
-  2  	 castID 	 INTEGER,
-  3  	 castName	 CHAR(30)    NOT NULL
-  4  );
+  6  	 endDate	 DATE	     NOT NULL,
+  7  	     CONSTRAINT woID1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE,
+  8  	     CONSTRAINT woID2 FOREIGN KEY(castID) REFERENCES CastMember(castID) ON DELETE CASCADE
+  9  );
 
 Table created.
 
 SQL> 
 SQL> CREATE TABLE Genre (
   2  	 showID 	 INTEGER,
-  3  	 genreName	     CHAR(15)
-  4  );
+  3  	 genreName	     CHAR(15),
+  4  	     CONSTRAINT gID1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE
+  5  );
 
 Table created.
 
@@ -111,8 +119,10 @@ SQL> CREATE TABLE Watches (
   2  	 userID 	 INTEGER,
   3  	 showID 	 INTEGER,
   4  	 epNum		 INTEGER,
-  5  	 timestamp	 TIMESTAMP    NOT NULL
-  6  );
+  5  	 timestamp	 TIMESTAMP    NOT NULL,
+  6  	     CONSTRAINT wID1 FOREIGN KEY(userID) REFERENCES UserProfile(userID) ON DELETE CASCADE,
+  7  	     CONSTRAINT wID2 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE
+  8  );
 
 Table created.
 
