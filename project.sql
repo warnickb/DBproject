@@ -53,7 +53,7 @@ CREATE TABLE WorkHistory (
     endDate         DATE        NOT NULL
 );
 
-CREATE TABLE Cast (
+CREATE TABLE CastMember (
     castID          INTEGER,
     castName        CHAR(30)    NOT NULL
 );
