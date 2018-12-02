@@ -64,7 +64,7 @@ SQL> CREATE TABLE Show (
   2  	 showID 	 INTEGER,
   3  	 showTitle	 CHAR(30)    NOT NULL,
   4  	 maturity	 CHAR(5)     NOT NULL,
-  5  	     CONSTRAINT shID1 PRIMARY KEY(showID)
+  5  	     CONSTRAINT shIC1 PRIMARY KEY(showID)
   6  );
 
 Table created.
@@ -78,8 +78,10 @@ SQL> CREATE TABLE Episode(
   6  	 season 	 INTEGER     NOT NULL,
   7  	 views		 INTEGER     NOT NULL,
   8  	 synopsis	 CHAR(300),
-  9  	     CONSTRAINT eID1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE
- 10  );
+  9  	     CONSTRAINT eIC1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE,
+ 10  	     CONSTRAINT eIC2 PRIMARY KEY(epNum),
+ 11  	     CONSTRAINT eIC3 CHECK(NOT(season = 0))
+ 12  );
 
 Table created.
 
@@ -87,7 +89,7 @@ SQL>
 SQL> CREATE TABLE CastMember (
   2  	 castID 	 INTEGER,
   3  	 castName	 CHAR(30)    NOT NULL,
-  4  	     CONSTRAINT cID1 PRIMARY KEY(castID)
+  4  	     CONSTRAINT cIC1 PRIMARY KEY(castID)
   5  );
 
 Table created.
@@ -99,8 +101,8 @@ SQL> CREATE TABLE WorkHistory (
   4  	 role		 CHAR(15),
   5  	 startDate	 DATE	     NOT NULL,
   6  	 endDate	 DATE	     NOT NULL,
-  7  	     CONSTRAINT woID1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE,
-  8  	     CONSTRAINT woID2 FOREIGN KEY(castID) REFERENCES CastMember(castID) ON DELETE CASCADE
+  7  	     CONSTRAINT woIC1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE,
+  8  	     CONSTRAINT woIC2 FOREIGN KEY(castID) REFERENCES CastMember(castID) ON DELETE CASCADE
   9  );
 
 Table created.
@@ -109,7 +111,7 @@ SQL>
 SQL> CREATE TABLE Genre (
   2  	 showID 	 INTEGER,
   3  	 genreName	     CHAR(15),
-  4  	     CONSTRAINT gID1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE
+  4  	     CONSTRAINT gIC1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE
   5  );
 
 Table created.
@@ -120,9 +122,10 @@ SQL> CREATE TABLE Watches (
   3  	 showID 	 INTEGER,
   4  	 epNum		 INTEGER,
   5  	 timestamp	 TIMESTAMP    NOT NULL,
-  6  	     CONSTRAINT wID1 FOREIGN KEY(userID) REFERENCES UserProfile(userID) ON DELETE CASCADE,
-  7  	     CONSTRAINT wID2 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE
-  8  );
+  6  	     CONSTRAINT wIC1 FOREIGN KEY(userID) REFERENCES UserProfile(userID) ON DELETE CASCADE,
+  7  	     CONSTRAINT wIC2 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE,
+  8  	     CONSTRAINT wIC3 CHECK(NOT(epNum = 0))
+  9  );
 
 Table created.
 
@@ -158,23 +161,71 @@ SQL> INSERT INTO Episode VALUES (743756, 203, 'The Reichenbach Fall', TO_TIMESTA
 SQL> INSERT INTO Episode VALUES (481516, 101, 'Pilot(Part 1)', TO_TIMESTAMP('00:48:32','hh24:mi:ss'), 1, 10312543,
   2  				 'Forty-eight survivors crash-land onto an unknown
   3  				 island 1000 miles off course, struggle to figure out a way to survive.');
+INSERT INTO Episode VALUES (481516, 101, 'Pilot(Part 1)', TO_TIMESTAMP('00:48:32','hh24:mi:ss'), 1, 10312543,
+*
+ERROR at line 1:
+ORA-00001: unique constraint (WARNICKB.EIC2) violated 
+
+
 SQL> INSERT INTO Episode VALUES (481516, 102, 'Pilot(Part 2)', TO_TIMESTAMP('00:44:24','hh24:mi:ss'), 1, 10023432,
   2  				 'Having retrieved the plane tranceiver, a group of survivors try to transmit
   3  				 a signal, only to receive a strange transmission from another inhabitant.');
+INSERT INTO Episode VALUES (481516, 102, 'Pilot(Part 2)', TO_TIMESTAMP('00:44:24','hh24:mi:ss'), 1, 10023432,
+*
+ERROR at line 1:
+ORA-00001: unique constraint (WARNICKB.EIC2) violated 
+
+
 SQL> INSERT INTO Episode VALUES (481516, 201, 'Man of Science, Man of Faith', TO_TIMESTAMP('00:47:32','hh24:mi:ss'), 2, 10343264,
   2  				 'One of the castaways is chosen to descend into the mysterious hatch, and Shannon stumbles
   3  				  upon a shockingly familiar face in the jungle.');
+INSERT INTO Episode VALUES (481516, 201, 'Man of Science, Man of Faith', TO_TIMESTAMP('00:47:32','hh24:mi:ss'), 2, 10343264,
+*
+ERROR at line 1:
+ORA-00001: unique constraint (WARNICKB.EIC2) violated 
+
+
 SQL> INSERT INTO Episode VALUES (481516, 202, 'Adrift', TO_TIMESTAMP('00:47:14','hh24:mi:ss'), 2, 9803243,
   2  				 'Michael and Sawyer fight for their lives on the high seas and discover
   3  				 a new threat. Locke descends into the hatch to find a missing Kate.');
+INSERT INTO Episode VALUES (481516, 202, 'Adrift', TO_TIMESTAMP('00:47:14','hh24:mi:ss'), 2, 9803243,
+*
+ERROR at line 1:
+ORA-00001: unique constraint (WARNICKB.EIC2) violated 
+
+
 SQL> INSERT INTO Episode VALUES (123456, 101, 'The Crocodiles Dilemma', TO_TIMESTAMP('01:10:35','hh24:mi:ss'), 1, 15889244,
   2  				 'A manipulative man meets a small town insurance salesman and sets him on a path of destruction.');
+INSERT INTO Episode VALUES (123456, 101, 'The Crocodiles Dilemma', TO_TIMESTAMP('01:10:35','hh24:mi:ss'), 1, 15889244,
+*
+ERROR at line 1:
+ORA-00001: unique constraint (WARNICKB.EIC2) violated 
+
+
 SQL> INSERT INTO Episode VALUES (123456, 102, 'The Rooster Prince', TO_TIMESTAMP('00:51:54','hh24:mi:ss'), 1, 15889238,
   2  				 'Molly begins to suspect that Lester is involved with the murders.');
+INSERT INTO Episode VALUES (123456, 102, 'The Rooster Prince', TO_TIMESTAMP('00:51:54','hh24:mi:ss'), 1, 15889238,
+*
+ERROR at line 1:
+ORA-00001: unique constraint (WARNICKB.EIC2) violated 
+
+
 SQL> INSERT INTO Episode VALUES (123456, 201, 'Waiting For Dutch', TO_TIMESTAMP('00:50:51','hh24:mi:ss'), 2, 15888945,
   2  				 'In 1979, a turn of events at a diner disrupts the lives of the citizens in a small Minnesota town.');
+INSERT INTO Episode VALUES (123456, 201, 'Waiting For Dutch', TO_TIMESTAMP('00:50:51','hh24:mi:ss'), 2, 15888945,
+*
+ERROR at line 1:
+ORA-00001: unique constraint (WARNICKB.EIC2) violated 
+
+
 SQL> INSERT INTO Episode VALUES (123456, 202, 'Before the Law', TO_TIMESTAMP('00:59:32','hh24:mi:ss'), 2, 14665795,
   2  				 'The Gerhardts get a surprising offer, and two murderers do their best to clean up their mess.');
+INSERT INTO Episode VALUES (123456, 202, 'Before the Law', TO_TIMESTAMP('00:59:32','hh24:mi:ss'), 2, 14665795,
+*
+ERROR at line 1:
+ORA-00001: unique constraint (WARNICKB.EIC2) violated 
+
+
 SQL> 
 SQL> SET FEEDBACK ON
 SQL> COMMIT;
