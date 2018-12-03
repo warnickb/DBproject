@@ -41,6 +41,7 @@ CREATE TABLE Episode(
     synopsis        CHAR(300),
     CONSTRAINT eIC1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE,
 	CONSTRAINT eIC2 CHECK(NOT(season = 0)),
+<<<<<<< HEAD
 	CONSTRAINT eIC3 CHECK(SUBSTR(epNum, 0, 1)= SUBSTR(season, 0, 1)) 
      
 );
@@ -50,6 +51,10 @@ CREATE TABLE Show (
     showTitle       CHAR(30)    NOT NULL,
     maturity        CHAR(5)     NOT NULL,
     CONSTRAINT shIC1 PRIMARY KEY(showID)  
+=======
+	CONSTRAINT eIC3 CHECK(NOT(epNum = 0)),
+	CONSTRAINT eIC4 CHECK(SUBSTR(epNum, 0, 1)= SUBSTR(season, 0, 1))   
+>>>>>>> 951048c319edb5fdab0d983bf995cc623bb92137
 );
 
 CREATE TABLE CastMember (
