@@ -20,13 +20,15 @@ CREATE TABLE Subscription(
     nextBillDate    DATE        NOT NULL,
     lastBillDate    DATE        NOT NULL,
     paymentMethod   CHAR(10)    NOT NULL,
-    managerID       INTEGER     NOT NULL
+    managerID       INTEGER     NOT NULL,
+    CONSTRAINT suIC1 PRIMARY KEY(accountID)
 );
 
 CREATE TABLE UserProfile(
     userID          INTEGER,
     userName        CHAR(20)   NOT NULL,
-    accountID       INTEGER    NOT NULL
+    accountID       INTEGER    NOT NULL,
+    CONSTRAINT uIC1 PRIMARY KEY(userID)
 );
 
 CREATE TABLE Episode(
@@ -36,18 +38,25 @@ CREATE TABLE Episode(
     duration        TIMESTAMP   NOT NULL,
     season          INTEGER     NOT NULL,
     views           INTEGER     NOT NULL,
-    synopsis        CHAR(300)   
+    synopsis        CHAR(300),
+    CONSTRAINT eIC1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE,
+	CONSTRAINT eIC2 CHECK(NOT(season = 0)),
+	CONSTRAINT eIC3 CHECK(SUBSTR(epNum, 0, 1)= SUBSTR(season, 0, 1)) 
+     
 );
 
 CREATE TABLE Show (
     showID          INTEGER,
     showTitle       CHAR(30)    NOT NULL,
-    maturity        CHAR(5)     NOT NULL
+    maturity        CHAR(5)     NOT NULL,
+    CONSTRAINT shIC1 PRIMARY KEY(showID)  
 );
 
 CREATE TABLE CastMember (
     castID          INTEGER,
-    castName        CHAR(30)    NOT NULL
+    castName        CHAR(30)    NOT NULL,
+    CONSTRAINT cIC1 PRIMARY KEY(castID)
+    
 );
 
 CREATE TABLE WorkHistory (
@@ -55,20 +64,26 @@ CREATE TABLE WorkHistory (
     castID          INTEGER,
     role            CHAR(15),
     startDate       DATE        NOT NULL,
-    endDate         DATE        NOT NULL
+    endDate         DATE        NOT NULL,
+    CONSTRAINT woIC1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE,
+	CONSTRAINT woIC2 FOREIGN KEY(castID) REFERENCES CastMember(castID) ON DELETE 
 );
 
 
 CREATE TABLE Genre (
     showID          INTEGER,
-    genreName           CHAR(15)
+    genreName           CHAR(15),
+    CONSTRAINT gIC1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE
 );
 
 CREATE TABLE Watches (
     userID          INTEGER,
     showID          INTEGER,
     epNum           INTEGER,
-    timestamp       TIMESTAMP    NOT NULL
+    timestamp       TIMESTAMP    NOT NULL,
+    CONSTRAINT wIC1 FOREIGN KEY(userID) REFERENCES UserProfile(userID) ON DELETE CASCADE,
+	CONSTRAINT wIC2 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE,
+	CONSTRAINT wIC3 CHECK(NOT(epNum = 0))
 );
 
 
