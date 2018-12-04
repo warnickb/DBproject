@@ -144,6 +144,9 @@ INSERT INTO CastMember VALUES (4395, 'Matthew Fox');
 INSERT INTO CastMember VALUES (546, 'J. J. Abrams');
 INSERT INTO CastMember VALUES (1234, 'Billy Bob Thornton');
 INSERT INTO CastMember VALUES (342, 'Martin Freeman');
+INSERT INTO CastMember VALUES (23, 'Leonard Nimoy');
+INSERT INTO CastMember VALUES (42, 'William Shatner');
+INSERT INTO CastMember VALUES (616, 'Gene Roddenberry');
 
 INSERT INTO WorkHistory VALUES (743756, 54, 'Star', TO_DATE('10/24/2010', 'MM/DD/YYYY'),  TO_DATE('01/15/2017', 'MM/DD/YYYY'));
 INSERT INTO WorkHistory VALUES (743756, 32, 'Showrunner', TO_DATE('10/24/2010', 'MM/DD/YYYY'),  TO_DATE('01/15/2017', 'MM/DD/YYYY'));
@@ -155,6 +158,9 @@ INSERT INTO WorkHistory VALUES (481516, 546, 'Director', TO_DATE('09/22/2004', '
 INSERT INTO WorkHistory VALUES (481516, 546, 'Producer', TO_DATE('09/22/2004', 'MM/DD/YYYY'),  TO_DATE('05/23/2010', 'MM/DD/YYYY'));
 INSERT INTO WorkHistory VALUES (123456, 1234, 'Star', TO_DATE('04/14/2014', 'MM/DD/YYYY'),  TO_DATE('05/10/2017', 'MM/DD/YYYY'));
 INSERT INTO WorkHistory VALUES (123456, 342, 'Star', TO_DATE('04/14/2014', 'MM/DD/YYYY'),  TO_DATE('12/17/2015', 'MM/DD/YYYY'));
+INSERT INTO WorkHistory VALUES (999999, 23, 'Star', TO_DATE('09/08/1966', 'MM/DD/YYYY'),  TO_DATE('06/03/1969', 'MM/DD/YYYY'));
+INSERT INTO WorkHistory VALUES (999999, 42, 'Star', TO_DATE('09/08/1966', 'MM/DD/YYYY'),  TO_DATE('06/03/1969', 'MM/DD/YYYY'));
+INSERT INTO WorkHistory VALUES (999999, 616, 'Producer', TO_DATE('09/08/1966', 'MM/DD/YYYY'),  TO_DATE('06/03/1969', 'MM/DD/YYYY'));
 
 INSERT INTO Genre VALUES (743756, 'Crime');
 INSERT INTO Genre VALUES (743756, 'Drama');
@@ -204,7 +210,145 @@ COMMIT;
 --database >
 --
 --< The SQL queries>. Include the following for each query:
+SET ECHO ON
+-- ---------------------------------------------------------------
+-- 
+-- Queries
 --
+-- ------------------------------------------------------------
+SELECT * FROM Subscription;
+SELECT * FROM UserProfile;
+SELECT * FROM Episode;
+SELECT * FROM Show;
+SELECT * FROM CastMember;
+SELECT * FROM WorkHistory;
+SELECT * FROM Genre;
+SELECT * FROM Watches;
+
+--Join 4 Relations, SUM -------------------------------
+--
+/*
+Find the total views Martin Freeman has per show.
+*/
+SELECT S.showTitle, SUM(E.views)
+FROM Show S, Episode E, CastMember C, WorkHistory W
+WHERE C.castName = 'Martin Freeman' AND
+      C.castID = W.castID AND
+      W.showID = S.showID AND
+      W.showID = E.showID
+GROUP BY S.showTitle;
+--
+-- Self Join ------------------------------
+-- 
+/*
+Find the Cast ID and Name for pairs of cast apperances in the same show that have different end dates. 
+*/
+SELECT C1.castID, C1.castName, C2.castID, C2.castName
+FROM CastMember C1, CastMember C2, WorkHistory W1, WorkHistory W2 
+WHERE C1.castID = W1.castID AND C2.castID = W2.castID AND
+		W1.showID = W2.showID AND W1.endDate != W2.endDate AND
+		C1.castID > C2.castID
+ORDER BY C1.castName;
+--
+-- Union, Intersect, and/or Minus ---------------------------
+--
+/*
+Find cast members that worked on science fiction shows but did not star in them.
+*/
+SELECT C.CastName
+FROM CastMember C, Genre G, WorkHistory W
+WHERE C.castID = W.CastID AND
+      W.showID = G.showID AND
+      'Science Fiction' IN G.genreName
+MINUS
+SELECT C.CastName 
+FROM  CastMember C, WorkHistory W
+WHERE C.castID = W.castID AND
+      W.role = 'Star';
+--
+-- Group By, Having, and Order By -------------------------------------------
+-- 
+/*
+Find the show ID and Show name for every show that has more than two cast members 
+*/
+SELECT S.showID, S.showTitle, COUNT(*)
+FROM Show S, WorkHistory W
+WHERE S.showID = W.showID
+GROUP BY S.showID, S.showTitle
+HAVING COUNT (*) > 2
+ORDER BY S.showID;
+--
+-- Correlated Subquery, AVG -------------------
+--
+/*
+Find the show ID, Show Title, Episode Number, and Episode name for all episodes that have more than the adverage number of views, sorted by show ID. 
+*/
+SELECT S.showID, S.showTitle, E.epNum, E.epName
+FROM Show S, Episode E 
+WHERE S.showID = E.showID AND
+	E.views > (SELECT AVG (E2.views)
+		 FROM Episode E2
+		 WHERE E2.showID = S.showID)
+ORDER BY S.showID;
+--
+-- Non-Correlated Subquery ----------------------------------
+--
+/*
+Find the cast ID and Name of all cast members that do not work on a show of the drama genre. 
+*/ 
+SELECT C.castID, C.castName
+FROM CastMember C
+WHERE C.castID NOT IN 
+		(SELECT W.castID
+		 FROM Genre G, WorkHistory W
+		 WHERE W.showID = G.showID AND
+			G.genreName = 'Drama');
+--
+-- Relational Division ----------------------------------
+-- 
+/*
+Find the castID and castName of every CastMember working on all crime shows
+*/
+SELECT C.castID, C.castName
+FROM CastMember C
+WHERE NOT EXISTS(
+      (SELECT G.showID
+       FROM   Genre G
+       WHERE  G.genreName = 'Crime')
+       MINUS
+       (SELECT W.showID
+       FROM WorkHistory W
+       WHERE C.castID = W.castID));
+-- 
+-- Outer Join Query --------------------------------
+--
+/*
+For every cast member find their cast ID and cast name. Also find the show ID they're working on and their role.
+*/
+SELECT C.castID, C.castName, W.showID, W.role
+From CastMember C LEFT OUTER JOIN WorkHistory W On C.castID = W.castID;
+--
+-- Rank Query -------------------------------
+--
+/*
+Find the rank of the first episode of season to for all shows.
+*/
+SELECT RANK (201) WITHIN GROUP
+	(ORDER BY epNum) "Rank of episode 1 of season 2"
+FROM Episode;
+
+--
+-- Top-N Query ---------------------------------------------
+--
+/*
+Find the show ID, Show title, and Episode number of the five most viewed episodes, sorted by views. 
+*/
+SELECT *
+FROM (SELECT S.showID, S.showTitle, E.epNum, E.epName, E.views FROM Show S, Episode E WHERE S.showID = E.showID ORDER BY views DESC)
+WHERE ROWNUM <= 5;
+--
+SET ECHO OFF
+SPOOL OFF
 --< The insert/delete/update statements to test the enforcement of ICs >
 COMMIT;
 --
