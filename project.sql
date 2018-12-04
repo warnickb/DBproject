@@ -49,7 +49,7 @@ CREATE TABLE Show (
     showID          INTEGER,
     showTitle       CHAR(30)    NOT NULL,
     maturity        CHAR(5)     NOT NULL,
-    CONSTRAINT shIC1 PRIMARY KEY(showID)  
+    CONSTRAINT shIC1 PRIMARY KEY(showID), 
 	CONSTRAINT eIC3 CHECK(NOT(epNum = 0)),
 	CONSTRAINT eIC4 CHECK(SUBSTR(epNum, 0, 1)= SUBSTR(season, 0, 1))   
 );
@@ -68,7 +68,7 @@ CREATE TABLE WorkHistory (
     startDate       DATE        NOT NULL,
     endDate         DATE        NOT NULL,
     CONSTRAINT woIC1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE,
-	CONSTRAINT woIC2 FOREIGN KEY(castID) REFERENCES CastMember(castID) ON DELETE 
+	CONSTRAINT woIC2 FOREIGN KEY(castID) REFERENCES CastMember(castID) ON DELETE CASCADE
 );
 
 
