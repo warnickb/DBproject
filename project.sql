@@ -130,9 +130,13 @@ INSERT INTO Episode VALUES (999999, 103, 'Charlie X', TO_TIMESTAMP('00:50:34','h
                             'The Enterprise has picked up a strange passenger -- a 17-year-old boy with dangerous psychic powers.');
 INSERT INTO Episode VALUES (999999, 104, 'Where No Man Has Gone Before', TO_TIMESTAMP('00:50:16','hh24:mi:ss'), 1, 15432671, 
                             'When investigating investigating the fate of a lost ship, two crew members fall unconcious and awaken with strange powers.');
-
-
-
+--< testing eIC1, this should fail foreign key test >
+INSERT INTO Episode VALUES (123, 104, 'Where No Man Has Gone Before', TO_TIMESTAMP('00:50:16','hh24:mi:ss'), 1, 15432671, 
+                            'When investigating investigating the fate of a lost ship, two crew members fall unconcious and awaken with strange powers.'); 
+--< testing eIC3, this should fail because episode number doesnt match season >
+INSERT INTO Episode VALUES (999999, 104, 'Where No Man Has Gone Before', TO_TIMESTAMP('00:50:16','hh24:mi:ss'), 2, 15432671, 
+                            'When investigating investigating the fate of a lost ship, two crew members fall unconcious and awaken with strange powers.');
+							
 INSERT INTO CastMember VALUES (54, 'Benedict Cumberbatch');
 INSERT INTO CastMember VALUES (32, 'Steven Moffat');
 INSERT INTO CastMember VALUES (934, 'Evangeline Lily');
@@ -166,6 +170,8 @@ INSERT INTO Genre VALUES (999999, 'Space Western');
 
 INSERT INTO Subscription VALUES (123456, 'fake@fakemail.com', TO_DATE('11/05/2018', 'MM/DD/YYYY'),  TO_DATE('12/05/2018', 'MM/DD/YYYY'), 'Visa', 1111);
 INSERT INTO Subscription VALUES (64845, 'superfake@fa.ke', TO_DATE('11/25/2018', 'MM/DD/YYYY'),  TO_DATE('12/25/2018', 'MM/DD/YYYY'), 'Mastercard', 1212);
+--< testing suIC1, this should fail primary key test >
+INSERT INTO Subscription VALUES (123456, 'fake@fakemail.com', TO_DATE('11/05/2018', 'MM/DD/YYYY'),  TO_DATE('12/05/2018', 'MM/DD/YYYY'), 'Visa', 1111);
 
 INSERT INTO UserProfile VALUES (1111, 'oneone', 123456);
 INSERT INTO UserProfile VALUES (2222, 'twotwo', 123456);
@@ -187,6 +193,9 @@ INSERT INTO Watches VALUES (1212, 481516, 101, TO_TIMESTAMP('00:48:32', 'hh24:mi
 INSERT INTO Watches VALUES (1212, 481516, 102, TO_TIMESTAMP('00:44:24', 'hh24:mi:ss'));
 INSERT INTO Watches VALUES (1212, 481516, 201, TO_TIMESTAMP('00:47:32', 'hh24:mi:ss'));
 INSERT INTO Watches VALUES (1212, 481516, 202, TO_TIMESTAMP('00:47:12', 'hh24:mi:ss'));
+--< testing wIC3, this should fail because epNum = 0 >
+INSERT INTO Watches VALUES (1111, 743756, 0, TO_TIMESTAMP('01:28:18', 'hh24:mi:ss'));
+
 
 SET FEEDBACK ON
 COMMIT;
