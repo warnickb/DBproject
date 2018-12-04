@@ -31,6 +31,13 @@ CREATE TABLE UserProfile(
     CONSTRAINT uIC1 PRIMARY KEY(userID)
 );
 
+CREATE TABLE Show (
+    showID          INTEGER,
+    showTitle       CHAR(30)    NOT NULL,
+    maturity        CHAR(5)     NOT NULL,
+    CONSTRAINT shIC1 PRIMARY KEY(showID)   
+);
+
 CREATE TABLE Episode(
     showID          INTEGER,
     epNum           INTEGER,
@@ -42,13 +49,6 @@ CREATE TABLE Episode(
     CONSTRAINT eIC1 FOREIGN KEY(showID) REFERENCES Show(showID) ON DELETE CASCADE,
 	CONSTRAINT eIC2 CHECK(NOT(season = 0)),
 	CONSTRAINT eIC3 CHECK(SUBSTR(epNum, 0, 1)= SUBSTR(season, 0, 1)) 
-);
-
-CREATE TABLE Show (
-    showID          INTEGER,
-    showTitle       CHAR(30)    NOT NULL,
-    maturity        CHAR(5)     NOT NULL,
-    CONSTRAINT shIC1 PRIMARY KEY(showID),   
 );
 
 CREATE TABLE CastMember (
@@ -91,7 +91,7 @@ SET FEEDBACK OFF
 INSERT INTO Show VALUES (743756, 'Sherlock', 'TV-14');
 INSERT INTO Show VALUES (481516, 'Lost', 'TV-14');
 INSERT INTO Show VALUES (123456, 'Fargo', 'TV-14');
-
+INSERT INTO Show VALUES (999999, 'Star Trek: The Original Series', 'TV-PG');
 
 INSERT INTO Episode VALUES (743756, 101, 'A Study in Pink', 
                             TO_TIMESTAMP('01:28:18','hh24:mi:ss'), 1, 457887,
@@ -160,6 +160,9 @@ INSERT INTO Genre VALUES (481516, 'Mystery');
 INSERT INTO Genre VALUES (481516, 'Science Fiction');
 INSERT INTO Genre VALUES (123456, 'Crime');
 INSERT INTO Genre VALUES (123456, 'Drama');
+INSERT INTO Genre VALUES (999999, 'Science Fiction');
+INSERT INTO Genre VALUES (999999, 'Space Opera');
+INSERT INTO Genre VALUES (999999, 'Space Western');
 
 INSERT INTO Subscription VALUES (123456, 'fake@fakemail.com', TO_DATE('11/05/2018', 'MM/DD/YYYY'),  TO_DATE('12/05/2018', 'MM/DD/YYYY'), 'Visa', 1111);
 INSERT INTO Subscription VALUES (64845, 'superfake@fa.ke', TO_DATE('11/25/2018', 'MM/DD/YYYY'),  TO_DATE('12/25/2018', 'MM/DD/YYYY'), 'Mastercard', 1212);
